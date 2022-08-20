@@ -1,10 +1,10 @@
 FROM google/cloud-sdk:alpine as gcsdk
 
-ENV HELM_VERSION v3.7.2
+ENV HELM_VERSION v3.9.3
 
 RUN     apk update && apk add curl openssl \
     &&  gcloud components list \
-    &&  gcloud components install kubectl -q  \
+    &&  gcloud components install kubectl gke-gcloud-auth-plugin -q  \
     &&  rm -fr /var/cache/apk/* \
                /google-cloud-sdk/bin/anthoscli \
                /google-cloud-sdk/bin/kubectl.* \
@@ -18,6 +18,7 @@ RUN     apk update && apk add curl openssl \
 
 FROM alpine as target
 ENV  PATH "/google-cloud-sdk/bin:$PATH"
+ENV  USE_GKE_GCLOUD_AUTH_PLUGIN=True
 RUN      apk update \
      &&  apk add bash ca-certificates curl openssl python3 \
      &&  rm -rf /var/cache/apk/*
@@ -41,7 +42,9 @@ COPY --from=gcsdk /usr/local/bin/     /usr/local/bin/
 # * In the target container,
 #   * Helm needs: curl, openssl
 #   * GCloud needs: python3
-
+# * The new auth plugin is required from kubernetes 1.25+ .
+#     To be able to use it before 1.25 arrives, we install it, and,
+#     set an ENV variable USE_GKE_GCLOUD_AUTH_PLUGIN=True .
 
 # Other notes:
 # -----------
