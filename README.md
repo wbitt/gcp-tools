@@ -9,9 +9,10 @@ Yes. **Minimized** & **Multi-Arch** - based on Alpine Linux! Serves your basic C
 * **docker-credential-gcloud** 
 * **gsutil** - latest
 * **git-credential-gcloud**
+* **gke-gcloud-auth-plugin** - Now required for kubectl `1.25+` and kubernetes `1.25+`
 * **kubectl** - only *one* binary with latest version - `1.20.8`
 * **helm** - latest - `v3.*.*`
-* Standard unix tools normally included in Alpine OS - `3.15`
+* Standard unix tools normally included in Alpine OS - `3.16`
 
 
 ## How small is this image?
