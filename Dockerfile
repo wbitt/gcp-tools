@@ -1,6 +1,6 @@
 FROM google/cloud-sdk:alpine as gcsdk
 
-ENV HELM_VERSION v3.9.3
+ENV HELM_VERSION v3.15.1
 
 RUN     apk update && apk add curl openssl \
     &&  gcloud components list \
@@ -16,7 +16,7 @@ RUN     apk update && apk add curl openssl \
     &&  ./get_helm.sh --version ${HELM_VERSION}
 
 
-FROM alpine as target
+FROM alpine:3.20 as target
 ENV  PATH "/google-cloud-sdk/bin:$PATH"
 ENV  USE_GKE_GCLOUD_AUTH_PLUGIN=True
 RUN      apk update \
